@@ -17,5 +17,5 @@ all_div_tit3 = soup.find_all('div',{"class":'tit3'})
 
 for tmp in all_div_tit3:
     # print(tmp.find("a").text)         # 텍스트 추출
-    # print(tmp.find("a").attrs['title'])     # 제목 속성 추출
+    print(tmp.find("a").attrs['title'])     # 제목 속성 추출
     print(tmp.find("a").attrs['href'])     # 참조 속성 추출    

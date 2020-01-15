@@ -1,6 +1,9 @@
 # Reference of Crawling
 크롤링에 관련된 개인 정리 레퍼런스입니다.
 
+## 라이브러리
+### beautifulsoup
+
 beautifulsoup이란?
     
 > beautifulsoup은 html의 태그를 다룰 수 있는 라이브러리이다. html에서 필요한 정보들을 쏙쏙 뽑아낼 때 사용한다. 
@@ -13,6 +16,9 @@ $ pip install bs4
 ```
 conda list beautifulsoup4
 ```
+
+
+## HTML 크롤링
 
 exam1.html에서
 div 태그 찾기
@@ -65,5 +71,56 @@ soup = BeautifulSoup(str.text, 'html.parser')
 all_div_tit3 = soup.find_all('div',{"class":'tit3'})
 
 for tmp in all_div_tit3:
-    print(tmp.find("a").text)
+    print(tmp.find("a").text)            # 텍스트 추출
+    print(tmp.find("a").attrs['title'])     # 제목 속성 추출
+    print(tmp.find("a").attrs['href'])     # 참조 속성 추출    
 ```
+
+
+## XML 크롤링
+
+- xml 추출 : 파일에서
+```
+from xml.etree.ElementTree import parse
+
+doc = parse('./resources/exam1.xml')
+
+a = doc.findall("student")
+
+for tmp in a:
+    print(tmp.findtext("name"))
+    print(tmp.findtext("age"))
+    print(tmp.find("addr").attrib)
+```
+
+- xml 추출 : url에서
+```
+from xml.etree.ElementTree import parse
+from urllib.request import urlopen
+
+url = 'http://ihongss.com/xml/exam1.xml'
+str1 = urlopen(url)
+doc1 = parse(str1)
+
+for item in doc1.iterfind('items/item'):
+    print(item.attrib)              # <item id="a">
+    print(item.findtext("name"))    # <name>a</name>
+
+```
+
+## CSV 크롤링
+```
+import csv
+
+f = open('./resources/exam1.csv', 'r', encoding='utf-8')
+rdr = csv.reader(f)
+next(rdr, None)     # 컬럼 skip
+
+for line in rdr:
+    # print(type(line))
+    print(line)
+```
+
+## 셀레니움
+
+pip install selenium
