@@ -16,7 +16,7 @@ cursor = conn.cursor()
 
 url = "http://ihongss.com/json/exam2.json"
 str1 = requests.get(url).text
-data1 = json.loads(str1)
+data1 = json.loads(str1)        # str -> dict 로 변경
 
 # print(type(str1))
 # print(str1)

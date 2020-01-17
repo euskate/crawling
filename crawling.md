@@ -355,3 +355,108 @@ for tmp in data1:
 conn_o.close()      # 오라클 연결 끊기
 conn.close()        # 몽고DB 연결 끊기
 ```
+
+### 이미지 크롤링
+
+- 먼저, 다운로드 받을 폴더를 만든다.
+- 셀레니움을 활용하여 저장한 변수를
+- urllib.request.urlretrieve를 통해 저장한다.
+
+- 새로운 메소드
+    - file = img.get_attribute("src") # 찾은 태그 중에서 src의 값
+    - urllib.request.urlretrieve(file, "./download/a2.png")
+
+```py
+# 파일명 : selenium03.py
+from selenium import webdriver
+import urllib.request
+
+options = webdriver.ChromeOptions()
+
+options.add_argument('headless')        # 화면으로 표시 안함
+options.add_argument("disable-gpu")   
+options.add_argument("lang=ko_KR")    
+options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')  # user-agent 
+
+driver = webdriver.Chrome('./chromedriver.exe', options=options)
+
+url = "http://ihongss.com/home/post?id=p_1579160264639"
+driver.get(url)
+# copy -> selector
+img = driver.find_element_by_css_selector("#image_view_0")
+print(img)
+
+file = img.get_attribute("src") # 찾은 태그 중에서 src의 값
+
+urllib.request.urlretrieve(file, "./download/a2.png")
+```
+
+```py
+# 절대 경로 가져오기
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print(os.path.join(BASE_DIR, "하위 프로젝트 디렉토리"))
+```
+
+selenium의
+Set of special keys codes.
+를 가져 옴
+```py
+query = driver.find_element_by_xpath('//*[@id="query"]')
+query.send_keys('사과')
+query.send_keys(Keys.ENTER)
+# from selenium.webdriver.common.keys import Keys
+```
+
+### 이미지 여러 개 가져오기 (네이버 이미지 검색어)
+
+```py
+# 파일명 : selenium04.py
+
+from selenium import webdriver
+import urllib.request
+import time
+from selenium.webdriver.common.keys import Keys
+
+# 절대 경로 가져오기 (여기서는 사용 안함)
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print(os.path.join(BASE_DIR, "crawling"))
+
+options = webdriver.ChromeOptions()
+
+# options.add_argument('headless') #화면 표시 X
+options.add_argument("disable-gpu")   
+options.add_argument("lang=ko_KR")    
+options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')  # user-agent 
+
+driver = webdriver.Chrome('./chromedriver.exe', options=options)
+
+url = "https://www.naver.com"
+driver.get(url)
+time.sleep(2)
+
+query = driver.find_element_by_xpath('//*[@id="query"]')
+query.send_keys('무화과')
+query.send_keys(Keys.ENTER)
+# from selenium.webdriver.common.keys import Keys
+
+imgspan = driver.find_element_by_xpath('//*[@id="lnb"]/div/div[1]/ul/li[2]/a/span')
+imgspan.click()
+
+link = list()
+
+for i in range(1, 21, 1): 
+    try:
+        img = driver.find_element_by_xpath('//*[@id="_sau_imageTab"]/div[1]/div[2]/div['+ str(i) + ']/a[1]/img') 
+    except:
+        img = driver.find_element_by_xpath('//*[@id="_sau_imageTab"]/div[2]/div[2]/div['+ str(i) + ']/a[1]/img')   
+    print(img)
+    link.append(img.get_attribute("src"))
+
+for idx, tmp in enumerate(link):
+    urllib.request.urlretrieve(tmp, './download/n'+str(idx)+'.jpg')
+```
+
+#bmKHarofYZ4ziM\:

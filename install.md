@@ -51,3 +51,15 @@ https://www.oracle.com/kr/database/technologies/instant-client/downloads.html
 https://robomongo.org/download
 
 - MongoDB의 GUI 관리툴
+
+
+### pip
+
+```
+> pip install cx_oracle
+> pip install django
+> pip install djangorestframework
+> pip install django-cors-headers
+> pip install selenium
+> pip install pymongo
+```

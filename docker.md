@@ -74,6 +74,7 @@ $ docker logs mongodb
     설치 완료 확인
 ```
 
-- 파이썬 mongoDB 라이브러리 설치
-
+- 파이썬 mongoDB 라이브러리 설치w
     `> pip install pymongo`
+
+### mongo

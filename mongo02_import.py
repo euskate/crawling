@@ -14,8 +14,8 @@ data1 = coll.find({},{'_id':False}) # id값 빼기
 for tmp in data1:
     print(tmp)
     sql = """
-        INSERT INTO TABLE1(NO, ID, NAME, AGE)
-        VALUES(SEQ_TABLE1_NO.nextval, :id, :name, :age)
+        INSERT INTO MEMBER1(NO, ID, NAME, AGE)
+        VALUES(SEQ_MEMBER1_NO.nextval, :id, :name, :age)
     """
     cursor.execute(sql, tmp)
     conn_o.commit()
